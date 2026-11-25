@@ -9,14 +9,14 @@ from schemas import MedicamentoCreate, MedicamentoResponse
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="API de Farmacia Institucional",
-    description="API para administrar los medicamentos de una farmacia institucional.",
+    title="API de Farmacia",
+    description="API para administrar los medicamentos ",
     version="1.0.0"
 )
 
 @app.get("/")
 def inicio():
-    return {"mensaje": "API de Farmacia Institucional funcionando"}
+    return {"mensaje": "API de Farmacia funcionando"}
 
 @app.post("/medicamentos", response_model=MedicamentoResponse, status_code=201)
 def registrar_medicamento(datos: MedicamentoCreate, db: Session = Depends(get_db)):
@@ -30,7 +30,7 @@ def registrar_medicamento(datos: MedicamentoCreate, db: Session = Depends(get_db
 def consultar_medicamentos(db: Session = Depends(get_db)):
     return db.query(Medicamento).order_by(Medicamento.id).all()
 
-# Esta ruta debe ir antes de /medicamentos/{medicamento_id}
+
 @app.get("/medicamentos/categoria/{categoria}", response_model=list[MedicamentoResponse])
 def filtrar_por_categoria(categoria: str, db: Session = Depends(get_db)):
     return (
